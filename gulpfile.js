@@ -3,6 +3,7 @@
 var browserSync = require('browser-sync'),
     browserify  = require('browserify'),
     del         = require('del'),
+    exposify    = require('exposify'),
     gulp        = require('gulp'),
     runSequence = require('run-sequence'),
     transform   = require('vinyl-transform'),
@@ -13,6 +14,8 @@ var DIR = {
   APP:  './app',
   DIST: './dist'
 }
+
+exposify.config = { recordrtc: 'RecordRTC' };
 
 gulp.task('browser-sync', function() {
   browserSync({
@@ -31,7 +34,6 @@ gulp.task('compile', [
   'compile:html',
   'compile:images',
   'compile:scripts',
-  'compile:scripts:jquery',
   'compile:scripts:recordrtc',
   'compile:styles'
 ]);
@@ -53,18 +55,20 @@ gulp.task('compile:images', function() {
 });
 
 gulp.task('compile:scripts', function() {
-  return gulp.src(DIR.APP + '/scripts/main.js')
-    .pipe(gulp.dest(DIR.DIST + '/scripts/'));
-});
+  var browserified = transform(function(filename) {
+    var b = browserify(filename)
+    b.transform(exposify);
+    return b.bundle();
+  });
 
-gulp.task('compile:scripts:jquery', function() {
-  return gulp.src(DIR.APP + '/../node_modules/jquery/dist/jquery.js')
+  return gulp.src(DIR.APP + '/scripts/main.js')
+    .pipe(browserified)
     .pipe(gulp.dest(DIR.DIST + '/scripts/'));
 });
 
 gulp.task('compile:scripts:recordrtc', function() {
-  return gulp.src(DIR.APP + '/../node_modules/recordrtc/RecordRTC.js')
-    .pipe(gulp.dest(DIR.DIST + '/scripts/'));
+  return gulp.src('./node_modules/recordrtc/RecordRTC.js')
+    .pipe(gulp.dest(DIR.DIST + '/scripts'));
 });
 
 gulp.task('compile:styles', function() {

@@ -1,0 +1,23 @@
+.recorder-controls {
+}
+
+.recorder-controls-button {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+
+    i {
+      font-size: 2rem;
+    }
+}
+
+.recorder-controls-button-record {
+  border: 3px solid $color-record;
+  color: $color-record;
+  background-color: $color-record-highlight;
+}
+
+.recorder-controls-button-record:hover {
+  color: $color-record-highlight;
+  background-color: $color-record;
+}
