@@ -46,19 +46,17 @@ Owl.recorder = (function(rtc) {
   };
 
   module.stop = function() {
-    var audioBlob,
-        videoBlob;
-
     stream.stop();
     stream = null;
 
     audioRecorder.stopRecording();
     videoRecorder.stopRecording();
 
-    audioBlob = audioRecorder.getBlob();
-    videoBlob = videoRecorder.getBlob();
-
-    this.emit('stop', {audio: audioBlob, video: videoBlob});
+    audioRecorder.getDataURL(function(audioDataURL) {
+      videoRecorder.getDataURL(function(videoDataURL) {
+        this.emit('stop', {audio: audioDataURL, video: videoDataURL});
+      }.bind(this));
+    }.bind(this));
   };
 
   return module;
@@ -77,11 +75,13 @@ Owl.uploader = (function($) {
     module.emit('error', arguments);
   }
 
-  module.uploadMedia = function(mediaBlobs) {
-    var xhr = $.ajax({
+  module.uploadMedia = function(media) {
+    var xhr;
+
+    xhr = $.ajax({
       url: 'http://192.168.1.90:8080/videos/',
       type: 'POST',
-      data: JSON.stringify(mediaBlobs)
+      data: media
     });
 
     xhr.done(onUploadMedia);
