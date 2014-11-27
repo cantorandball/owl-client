@@ -1,4 +1,14 @@
 .container {
   max-width: 60rem;
   margin: 3.75rem auto 0 auto;
+  padding: 0 2rem;
+}
+
+section {
+  display: none;
+  text-align: center;
+}
+
+.visible {
+  display: block;
 }

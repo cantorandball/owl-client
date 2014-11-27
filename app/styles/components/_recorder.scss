@@ -1,0 +1,13 @@
+.recorder {
+}
+
+.recorder-controls-button {
+  @extend %control-button;
+  color: $color-red;
+  border-color: $color-red;
+}
+
+.recorder-controls-button:hover {
+  color: $color-white;
+  background-color: $color-red;
+}

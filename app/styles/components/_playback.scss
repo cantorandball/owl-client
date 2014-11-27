@@ -1,0 +1,14 @@
+.playback {}
+
+.playback-controls,
+.playback-uploading {
+  display: none;
+
+  &.visible {
+    display: block;
+  }
+}
+
+.playback-controls-button {
+  @extend %control-button;
+}

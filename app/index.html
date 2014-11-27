@@ -15,12 +15,29 @@
     <header></header>
 
     <div class='container'>
-      <section>
-        <h1>Tell your story</h1>
+      <section class='recorder visible'>
+        <h1>Record your story</h1>
         <div class='recorder-controls'>
-          <button class='recorder-controls-button recorder-controls-button-record js-record-video'>
+          <button class='recorder-controls-button js-record-video'>
             <i class='icon-videocam'></i>
           </button>
+        </div>
+      </section>
+
+      <section class='playback'>
+        <h1>Your video</h1>
+        <video controls></video>
+        <audio></audio>
+        <div class='playback-controls visible'>
+          <button class='playback-controls-button playback-controls-button-upload js-upload-video'>
+            <i class='icon-upload-cloud'></i>
+          </button>
+          <button class='playback-controls-button playback-controls-button-cancel js-cancel-video'>
+            <i class='icon-cancel'></i>
+          </button>
+        </div>
+        <div class='playback-uploading'>
+          <h2>Uploading…</h2>
         </div>
       </section>
     </div>
