@@ -81,8 +81,22 @@ Owl.playback = (function() {
   $.extend(module, new Emitter());
 
   module.loadMedia = function(audioDataURL, videoDataURL, $playbackSection) {
-    $playbackSection.find('video')[0].src = videoDataURL;
-    $playbackSection.find('audio')[0].src = audioDataURL;
+    var video, audio;
+
+    $video = $playbackSection.find('video');
+    $video[0].src = videoDataURL;
+    $audio = $playbackSection.find('audio');
+    $audio[0].src = audioDataURL;
+
+    $video.on('play', function() {
+      $audio[0].play();
+      $audio[0].currentTime = $video[0].currentTime;
+    });
+
+    $video.on('pause', function() {
+      $audio[0].pause();
+    });
+
     this.emit('load');
   };
 
@@ -95,18 +109,18 @@ Owl.uploader = (function($) {
   $.extend(module, new Emitter());
 
   function onUploadMedia() {
-    module.emit('upload', arguments);
+    module.emit('upload');
   }
 
-  function onUploadMediaError() {
-    module.emit('error', arguments);
+  function onUploadMediaError(xhr, errorText, error) {
+    module.emit('error');
   }
 
   module.uploadMedia = function(audioDataURL, videoDataURL) {
     var xhr;
 
     xhr = $.ajax({
-      url: 'http://192.168.1.90:8080/videos/',
+      url: 'http://localhost:8080/videos',
       type: 'POST',
       data: {
         audio: audioDataURL,
@@ -125,11 +139,14 @@ Owl.uploader = (function($) {
 $(function() {
   var $recorderSection      = $('.recorder'),
       $playbackSection      = $('.playback'),
+      $uploadingSection     = $('.uploading'),
+      $uploadedSection      = $('.uploaded'),
       $recorderSectionTitle = $recorderSection.find('h1'),
       $playbackSectionTitle = $playbackSection.find('h1'),
       $recordVideoButton    = $('.js-record-video'),
       $cancelVideoButton    = $('.js-cancel-video'),
       $uploadVideoButton    = $('.js-upload-video'),
+      $newStoryLink         = $('.js-new-story'),
       recordIconClass       = 'icon-videocam',
       stopIconClass         = 'icon-stop';
 
@@ -162,6 +179,11 @@ $(function() {
     $recordVideoButton.find('i').removeClass(stopIconClass).addClass(recordIconClass);
   });
 
+  Owl.uploader.on('upload', function() {
+    makeInvisible($uploadingSection);
+    makeVisible($uploadedSection);
+  });
+
   Owl.uploader.on('error', function(errorArgs) {
     console.log('upload error', errorArgs);
   });
@@ -178,10 +200,16 @@ $(function() {
   });
 
   $uploadVideoButton.on('click', function() {
-    makeInvisible($playbackSection.find('.playback-controls'));
-    makeVisible($playbackSection.find('.playback-uploading'));
+    makeInvisible($playbackSection);
+    makeVisible($uploadingSection);
 
     Owl.uploader.uploadMedia(Owl.recorder.getAudioURL,
                              Owl.recorder.getVideoURL);
+  });
+
+  $newStoryLink.on('click', function(e) {
+    e.preventDefault();
+    makeInvisible($uploadedSection);
+    makeVisible($recorderSection);
   });
 });

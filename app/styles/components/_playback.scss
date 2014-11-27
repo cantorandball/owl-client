@@ -1,14 +1,24 @@
 .playback {}
 
-.playback-controls,
-.playback-uploading {
-  display: none;
-
-  &.visible {
-    display: block;
-  }
+.playback video {
+  margin-bottom: 2.5rem;
 }
 
 .playback-controls-button {
   @extend %control-button;
+  margin: 0 0.875rem;
+}
+
+.playback-controls-button-upload {
+  color: $color-green;
+  border-color: $color-green;
+}
+
+.playback-controls-button-upload:hover {
+  background-color: $color-green;
+}
+
+// fix to off-center icon font
+.icon-upload-cloud {
+  margin-left: -4px;
 }
