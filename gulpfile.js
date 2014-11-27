@@ -138,7 +138,7 @@ gulp.task('deploy', function() {
 });
 
 gulp.task('dev', ['clean'], function() {
-  runSequence('compile', ['watch']);
+  runSequence('compile', ['watch', 'browser-sync']);
 });
 
 gulp.task('watch', function() {
