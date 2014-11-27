@@ -1,6 +1,6 @@
 # owl
 
-This is the website for [owl](http://example.com).
+Spiking out a client for capturing and uploading video.
 
 ## Development
 
@@ -23,27 +23,22 @@ $ # ruby is already installed
 Clone the github repository, and install project packages.
 
 ```
-$ git clone REPOSITORY owl
-$ cd owl
+$ git clone git@github.com:cantorandball/owl-client.git owl-client
+$ cd owl-client
 $ bundle install --path vendor/bundle
 $ npm install
 ```
 
 ### Building the project
 
-From the repository root.
+From the repository root:
 
 ```
 $ gulp build
 ```
 
-## Deployment
-
-The website is hosted using [GitHub Pages](https://pages.github.com).
-To deploy:
+Or keep watching for changes to recompile with:
 
 ```
-$ gulp build
-$ gulp deploy
+$ gulp dev
 ```
-
