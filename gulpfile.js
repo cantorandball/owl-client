@@ -102,9 +102,9 @@ gulp.task('minifyVersion', function(cb) {
     .pipe(assetFilter.restore())
     // Minify JS
     .pipe(jsFilter)
-    .pipe($.uglify())
-    .on('error', $.notify.onError('Uglify failed'))
-    .on('error', $.util.log)
+    // .pipe($.uglify())
+    // .on('error', $.notify.onError('Uglify failed'))
+    // .on('error', $.util.log)
     .pipe(jsFilter.restore())
     // Minify CSS
     .pipe(cssFilter)
