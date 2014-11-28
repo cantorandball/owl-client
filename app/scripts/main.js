@@ -120,7 +120,7 @@ Owl.uploader = (function($) {
     var xhr;
 
     xhr = $.ajax({
-      url: 'http://localhost:8080/videos',
+      url: 'http://api.ph.cantorandball.com/videos',
       type: 'POST',
       data: {
         audio: audioDataURL,
